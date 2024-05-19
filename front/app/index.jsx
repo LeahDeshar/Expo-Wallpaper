@@ -10,7 +10,10 @@ import React from "react";
 import { hp, wp } from "../helper/common";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { theme } from "../constants/theme";
+import { useRouter } from "expo-router";
 const WelcomeScreen = () => {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -34,13 +37,26 @@ const WelcomeScreen = () => {
         />
 
         <View style={styles.contentContainer}>
-          <Text style={styles.title}>Pixels</Text>
-          <Text style={styles.punchline}>Every Pixel Tells a Story</Text>
-          <View>
-            <Pressable style={styles.startButton}>
+          <Animated.Text
+            entering={FadeInDown.delay(400).springify()}
+            style={styles.title}
+          >
+            Pixels
+          </Animated.Text>
+          <Animated.Text
+            entering={FadeInDown.delay(500).springify()}
+            style={styles.punchline}
+          >
+            Every Pixel Tells a Story
+          </Animated.Text>
+          <Animated.View entering={FadeInDown.delay(600).springify()}>
+            <Pressable
+              style={styles.startButton}
+              onPress={() => router.push("home")}
+            >
               <Text style={styles.startText}>Start Explore</Text>
             </Pressable>
-          </View>
+          </Animated.View>
         </View>
       </Animated.View>
     </View>
@@ -63,5 +79,38 @@ const styles = StyleSheet.create({
     height: hp(65),
     bottom: 0,
     position: "absolute",
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 14,
+  },
+
+  title: {
+    fontSize: hp(7),
+    color: theme.colors.neutral(0.9),
+    fontWeight: theme.fontWeights.bold,
+  },
+  punchline: {
+    fontSize: hp(2),
+    letterSpacing: 1,
+    marginBottom: 10,
+    fontWeight: theme.fontWeights.medium,
+  },
+
+  startButton: {
+    marginBottom: 50,
+    backgroundColor: theme.colors.neutral(0.9),
+    padding: 15,
+    paddingHorizontal: 90,
+    borderRadius: theme.radius.xl,
+    borderCurve: "continuous",
+  },
+  startText: {
+    color: theme.colors.white,
+    fontSize: hp(3),
+    fontWeight: theme.fontWeights.medium,
+    letterSpacing: 1,
   },
 });
