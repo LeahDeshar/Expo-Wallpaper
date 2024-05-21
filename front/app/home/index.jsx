@@ -13,6 +13,7 @@ import { theme } from "../../constants/theme";
 import { hp, wp } from "../../helper/common";
 import Categories from "../../components/categories";
 import { apiCall } from "../../api";
+import ImageGrid from "../../components/ImageGrid";
 const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const paddingTop = top > 0 ? top + 10 : 30;
@@ -24,10 +25,14 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchImages();
   }, []);
-  const fetchImages = async (params = { page: 1 }, append = true) => {
+  const fetchImages = async (params = { page: 1 }, append = false) => {
     let res = await apiCall(params);
     if (res.success && res?.data?.hits) {
-      setImages([...res.data.hits]);
+      if (append) {
+        setImages([...images, ...res.data.hits]);
+      } else {
+        setImages([...res.data.hits]);
+      }
     }
     console.log("result", res?.data);
   };
@@ -83,6 +88,8 @@ const HomeScreen = () => {
             handleChangeCategory={handleChangeCategory}
           />
         </View>
+
+        <View>{images.length > 0 && <ImageGrid images={images} />}</View>
       </ScrollView>
     </View>
   );
