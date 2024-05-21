@@ -6,19 +6,31 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { theme } from "../../constants/theme";
 import { hp, wp } from "../../helper/common";
 import Categories from "../../components/categories";
+import { apiCall } from "../../api";
 const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const paddingTop = top > 0 ? top + 10 : 30;
   const [search, setSearch] = useState("");
+  const [images, setImages] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const searchInputRef = useRef(null);
 
+  useEffect(() => {
+    fetchImages();
+  }, []);
+  const fetchImages = async (params = { page: 1 }, append = true) => {
+    let res = await apiCall(params);
+    if (res.success && res?.data?.hits) {
+      setImages([...res.data.hits]);
+    }
+    console.log("result", res?.data);
+  };
   const handleChangeCategory = (cat) => {
     setActiveCategory(cat);
   };
