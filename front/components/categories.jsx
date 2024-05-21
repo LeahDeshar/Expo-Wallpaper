@@ -3,18 +3,27 @@ import React from "react";
 import { data } from "../constants/categories";
 import { hp, wp } from "../helper/common";
 import { theme } from "../constants/theme";
+import Animated, { FadeInRight } from "react-native-reanimated";
 
 const CategoryItem = ({ title, index, isActive, handleChangeCategory }) => {
-  let textColor = "";
+  let color = isActive ? theme.colors.white : theme.colors.neutral(0.8);
+  let backgroundColor = isActive
+    ? theme.colors.neutral(0.8)
+    : theme.colors.white;
   return (
-    <View>
+    <Animated.View
+      entering={FadeInRight.delay(index * 200)
+        .duration(1000)
+        .springify()
+        .damping(14)}
+    >
       <Pressable
         onPress={() => handleChangeCategory(isActive ? null : title)}
-        style={[styles.category]}
+        style={[styles.category, { backgroundColor }]}
       >
-        <Text style={[styles.title]}>{title}</Text>
+        <Text style={[styles.title, { color }]}>{title}</Text>
       </Pressable>
-    </View>
+    </Animated.View>
   );
 };
 const Categories = ({ activeCategory, handleChangeCategory }) => {
