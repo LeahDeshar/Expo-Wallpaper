@@ -1,10 +1,15 @@
-import { Pressable, StyleSheet, Text, View, Image } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { Image } from "expo-image";
 
 const ImageCard = ({ item, index }) => {
   return (
     <Pressable>
-      <Image style={styles.image} source={{ uri: item?.webformatURL }} />
+      <Image
+        style={styles.image}
+        source={item?.webformatURL}
+        transition={100}
+      />
     </Pressable>
   );
 };
