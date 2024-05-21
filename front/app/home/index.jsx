@@ -1,10 +1,17 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TextInput,
+} from "react-native";
 import React, { useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { theme } from "../../constants/theme";
 import { hp, wp } from "../../helper/common";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import Categories from "../../components/categories";
 const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const paddingTop = top > 0 ? top + 10 : 30;
@@ -51,6 +58,10 @@ const HomeScreen = () => {
               />
             </Pressable>
           )}
+        </View>
+
+        <View style={styles.categories}>
+          <Categories />
         </View>
       </ScrollView>
     </View>
