@@ -4,16 +4,20 @@ import { data } from "../constants/categories";
 import { hp, wp } from "../helper/common";
 import { theme } from "../constants/theme";
 
-const CategoryItem = ({ title, index }) => {
+const CategoryItem = ({ title, index, isActive, handleChangeCategory }) => {
+  let textColor = "";
   return (
     <View>
-      <Pressable style={[styles.category]}>
+      <Pressable
+        onPress={() => handleChangeCategory(isActive ? null : title)}
+        style={[styles.category]}
+      >
         <Text style={[styles.title]}>{title}</Text>
       </Pressable>
     </View>
   );
 };
-const Categories = () => {
+const Categories = ({ activeCategory, handleChangeCategory }) => {
   return (
     <FlatList
       horizontal
@@ -22,7 +26,12 @@ const Categories = () => {
       data={data.categories}
       keyExtractor={(item) => item}
       renderItem={({ item, index }) => (
-        <CategoryItem title={item} index={index} />
+        <CategoryItem
+          title={item}
+          index={index}
+          isActive={activeCategory == item}
+          handleChangeCategory={handleChangeCategory}
+        />
       )}
     />
   );
