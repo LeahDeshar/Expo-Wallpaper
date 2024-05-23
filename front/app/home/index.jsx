@@ -16,6 +16,7 @@ import { apiCall } from "../../api";
 import ImageGrid from "../../components/ImageGrid";
 
 import { debounce } from "lodash";
+import FilterModal from "../../components/FilterModal";
 
 var page = 1;
 const HomeScreen = () => {
@@ -25,6 +26,7 @@ const HomeScreen = () => {
   const [images, setImages] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const searchInputRef = useRef(null);
+  const modalInputRef = useRef(null);
 
   useEffect(() => {
     fetchImages();
@@ -133,6 +135,8 @@ const HomeScreen = () => {
 
         <View>{images.length > 0 && <ImageGrid images={images} />}</View>
       </ScrollView>
+
+      <FilterModal modalInputRef={modalInputRef} />
     </View>
   );
 };
