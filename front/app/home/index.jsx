@@ -6,7 +6,7 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { theme } from "../../constants/theme";
@@ -14,6 +14,10 @@ import { hp, wp } from "../../helper/common";
 import Categories from "../../components/categories";
 import { apiCall } from "../../api";
 import ImageGrid from "../../components/ImageGrid";
+
+import { debounce } from "lodash";
+
+var page = 1;
 const HomeScreen = () => {
   const { top } = useSafeAreaInsets();
   const paddingTop = top > 0 ? top + 10 : 30;
@@ -41,8 +45,30 @@ const HomeScreen = () => {
   };
 
   const handleSearch = (text) => {
-    console.log("Searching for: ", text);
+    setSearch(text);
+    if (text.length > 2) {
+      page = 1;
+      setImages([]);
+      fetchImages({ page, q: text });
+    }
+
+    if (text == "") {
+      page = 1;
+      searchInputRef.current.clear();
+      setImages([]);
+      fetchImages({ page });
+    }
   };
+
+  // const clearSearch = () => {
+  //   setSearch("");
+  //   searchInputRef.current.clear();
+  //   page = 1;
+  //   setImages([]);
+  //   fetchImages({ page });
+  // };
+
+  const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
   return (
     <View style={[styles.container, { paddingTop }]}>
       <View style={styles.header}>
@@ -71,12 +97,12 @@ const HomeScreen = () => {
             placeholder="Search for photos..."
             style={styles.searchInput}
             ref={searchInputRef}
-            value={search}
-            onChangeText={(value) => setSearch(value)}
+            // value={search}
+            onChangeText={handleTextDebounce}
           />
 
           {search && (
-            <Pressable>
+            <Pressable onPress={() => handleSearch("")}>
               <Ionicons
                 name="close"
                 size={24}
