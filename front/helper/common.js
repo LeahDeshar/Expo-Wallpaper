@@ -22,3 +22,13 @@ export const getColumnCount = () => {
     return 2;
   }
 };
+
+export const getImageSize = (height, width) => {
+  if (width > height) {
+    return 250;
+  } else if (width < height) {
+    return 300;
+  } else {
+    return 2000;
+  }
+};
