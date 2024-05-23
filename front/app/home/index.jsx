@@ -39,6 +39,10 @@ const HomeScreen = () => {
   const handleChangeCategory = (cat) => {
     setActiveCategory(cat);
   };
+
+  const handleSearch = (text) => {
+    console.log("Searching for: ", text);
+  };
   return (
     <View style={[styles.container, { paddingTop }]}>
       <View style={styles.header}>
