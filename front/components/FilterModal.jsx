@@ -15,9 +15,9 @@ const FilterModal = ({ modalInputRef }) => {
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
     >
-      {/* <BottomSheetView style={styles.contentContainer}>
+      <BottomSheetView style={styles.contentContainer}>
         <Text>Hello</Text>
-      </BottomSheetView> */}
+      </BottomSheetView>
     </BottomSheetModal>
   );
 };
