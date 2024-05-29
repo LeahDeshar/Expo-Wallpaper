@@ -74,6 +74,13 @@ const HomeScreen = () => {
     }
   };
 
+  const openFilterModal = () => {
+    modalInputRef?.current?.present();
+  };
+  const closeFilterModal = () => {
+    modalInputRef?.current?.close();
+  };
+
   const clearSearch = () => {
     setSearch("");
     searchInputRef.current.clear();
@@ -89,7 +96,7 @@ const HomeScreen = () => {
         <Pressable>
           <Text style={styles.title}>Pixels</Text>
         </Pressable>
-        <Pressable>
+        <Pressable onPress={openFilterModal}>
           <FontAwesome6
             name="bars-staggered"
             size={22}
