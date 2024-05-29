@@ -7,6 +7,8 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { hp } from "../helper/common";
+import { theme } from "../constants/theme";
 
 const FilterModal = ({ modalInputRef }) => {
   const snapPoints = useMemo(() => ["75%"], []);
@@ -27,12 +29,42 @@ const FilterModal = ({ modalInputRef }) => {
         <View style={styles.content}>
           <Text style={styles.filterText}>Filters</Text>
           <Text style={styles.filterText}>Section here</Text>
+          {Object.keys(sections).map((sectionName, index) => {
+            let sectionView = sections[sectionName];
+            return (
+              <View key={sectionName}>
+                <SectionView />
+              </View>
+            );
+          })}
         </View>
       </BottomSheetView>
     </BottomSheetModal>
   );
 };
 
+const sections = {
+  order: (props) => <OrderView {...props} />,
+  orientation: (props) => <SectionView {...props} />,
+  type: (props) => <SectionView {...props} />,
+  colors: (props) => <SectionView {...props} />,
+};
+
+const SectionView = () => {
+  return (
+    <View>
+      <Text>Section View</Text>
+    </View>
+  );
+};
+
+const OrderView = () => {
+  return (
+    <View>
+      <Text>Order View</Text>
+    </View>
+  );
+};
 const CustomBackDrop = ({ animatedIndex, style }) => {
   const containerAnimatedStyle = useAnimatedStyle(() => {
     let opacity = interpolate(
@@ -82,5 +114,11 @@ const styles = StyleSheet.create({
     gap: 15,
     paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+  filterText: {
+    fontSize: hp(4),
+    fontWeight: theme.fontWeights.semibold,
+    color: theme.colors.neutral(0.8),
+    marginBottom: 5,
   },
 });
