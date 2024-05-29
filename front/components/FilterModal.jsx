@@ -1,19 +1,25 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useCallback, useMemo } from "react";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { BlurView } from "expo-blur";
+import Animated, {
+  Extrapolation,
+  interpolate,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
 const FilterModal = ({ modalInputRef }) => {
-  const snapPoints = useMemo(() => ["25%", "75%"], []);
+  const snapPoints = useMemo(() => ["75%"], []);
 
-  const handleSheetChanges = useCallback((index) => {
-    console.log(index);
-  }, []);
+  // const handleSheetChanges = useCallback((index) => {
+  //   console.log(index);
+  // }, []);
   return (
     <BottomSheetModal
       ref={modalInputRef}
       index={1}
       snapPoints={snapPoints}
-      onChange={handleSheetChanges}
+      // onChange={handleSheetChanges}
       enablePanDownToClose={true}
       backdropComponent={CustomBackDrop}
     >
@@ -25,8 +31,32 @@ const FilterModal = ({ modalInputRef }) => {
 };
 
 const CustomBackDrop = ({ animatedIndex, style }) => {
-  const containerStyle = [StyleSheet.absoluteFill, style, styles.overlay];
-  return <View style={containerStyle}></View>;
+  const containerAnimatedStyle = useAnimatedStyle(() => {
+    let opacity = interpolate(
+      animatedIndex.value,
+      [-1, 0],
+      [0, 1],
+      Extrapolation.CLAMP
+    );
+    return {
+      opacity,
+    };
+  });
+  const containerStyle = [
+    StyleSheet.absoluteFill,
+    style,
+    styles.overlay,
+    containerAnimatedStyle,
+  ];
+  return (
+    <Animated.View style={containerStyle}>
+      <BlurView
+        style={StyleSheet.absoluteFill}
+        tint="dark"
+        intensity={25}
+      ></BlurView>
+    </Animated.View>
+  );
 };
 export default FilterModal;
 
