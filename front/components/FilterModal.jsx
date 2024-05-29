@@ -17,14 +17,17 @@ const FilterModal = ({ modalInputRef }) => {
   return (
     <BottomSheetModal
       ref={modalInputRef}
-      index={1}
+      index={0}
       snapPoints={snapPoints}
       // onChange={handleSheetChanges}
       enablePanDownToClose={true}
       backdropComponent={CustomBackDrop}
     >
       <BottomSheetView style={styles.contentContainer}>
-        <Text>Hello</Text>
+        <View style={styles.content}>
+          <Text style={styles.filterText}>Filters</Text>
+          <Text style={styles.filterText}>Section here</Text>
+        </View>
       </BottomSheetView>
     </BottomSheetModal>
   );
@@ -61,17 +64,23 @@ const CustomBackDrop = ({ animatedIndex, style }) => {
 export default FilterModal;
 
 const styles = StyleSheet.create({
-  constainer: {
-    flex: 1,
-    padding: 24,
-    justifyContent: "center",
-    backgroundColor: "grey",
-  },
+  // constainer: {
+  //   flex: 1,
+  //   padding: 24,
+  //   justifyContent: "center",
+  //   backgroundColor: "grey",
+  // },
   contentContainer: {
     flex: 1,
     alignItems: "center",
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  content: {
+    width: "100%",
+    gap: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
 });
