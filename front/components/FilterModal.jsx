@@ -33,7 +33,7 @@ const FilterModal = ({ modalInputRef }) => {
             let sectionView = sections[sectionName];
             return (
               <View key={sectionName}>
-                <SectionView />
+                <SectionView title={sectionName} content={sectionView({})} />
               </View>
             );
           })}
