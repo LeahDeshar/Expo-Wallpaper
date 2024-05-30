@@ -9,7 +9,12 @@ import Animated, {
 } from "react-native-reanimated";
 import { capitalize, hp } from "../helper/common";
 import { theme } from "../constants/theme";
-import { CommonFilterRow, OrderView, SectionView } from "./FilterViews";
+import {
+  ColorFilterRow,
+  CommonFilterRow,
+  OrderView,
+  SectionView,
+} from "./FilterViews";
 import { data } from "../constants/categories";
 
 const FilterModal = ({
@@ -66,7 +71,7 @@ const sections = {
   order: (props) => <CommonFilterRow {...props} />,
   orientation: (props) => <CommonFilterRow {...props} />,
   type: (props) => <CommonFilterRow {...props} />,
-  colors: (props) => <CommonFilterRow {...props} />,
+  colors: (props) => <ColorFilterRow {...props} />,
 };
 
 const CustomBackDrop = ({ animatedIndex, style }) => {

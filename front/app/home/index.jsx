@@ -99,7 +99,6 @@ const HomeScreen = () => {
 
   const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
 
-  console.log("filters", filters);
   return (
     <View style={[styles.container, { paddingTop }]}>
       <View style={styles.header}>
