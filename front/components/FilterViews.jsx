@@ -12,6 +12,7 @@ export const SectionView = ({ title, content }) => {
 };
 export const CommonFilterRow = ({ data, filterName, filters, setFilters }) => {
   const onSelect = (item) => {
+    console.log(item);
     setFilters({ ...filters, [filterName]: item });
   };
   return (
@@ -19,6 +20,7 @@ export const CommonFilterRow = ({ data, filterName, filters, setFilters }) => {
       {data &&
         data.map((item, index) => {
           let isActive = filters && filters[filterName] == item;
+          console.log(filters[filterName]);
           console.log(isActive);
           let backgrounColor = isActive ? theme.colors.neutral(0.7) : "white";
           let color = isActive ? "white" : theme.colors.neutral(0.7);
