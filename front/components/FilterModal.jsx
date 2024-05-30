@@ -10,8 +10,16 @@ import Animated, {
 import { capitalize, hp } from "../helper/common";
 import { theme } from "../constants/theme";
 import { CommonFilterRow, OrderView, SectionView } from "./FilterViews";
+import { data } from "../constants/categories";
 
-const FilterModal = ({ modalInputRef, onClose, onApply }) => {
+const FilterModal = ({
+  modalInputRef,
+  onClose,
+  onApply,
+  onReset,
+  filters,
+  setFilters,
+}) => {
   const snapPoints = useMemo(() => ["75%"], []);
 
   // const handleSheetChanges = useCallback((index) => {
