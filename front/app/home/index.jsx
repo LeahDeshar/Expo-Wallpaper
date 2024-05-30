@@ -25,6 +25,7 @@ const HomeScreen = () => {
   const [search, setSearch] = useState("");
   const [images, setImages] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
+  const [filters, setFilters] = useState(null);
   const searchInputRef = useRef(null);
   const modalInputRef = useRef(null);
 
@@ -81,6 +82,13 @@ const HomeScreen = () => {
     modalInputRef?.current?.close();
   };
 
+  const applyFilter = () => {
+    closeFilterModal();
+  };
+
+  const resetFilter = () => {
+    closeFilterModal();
+  };
   const clearSearch = () => {
     setSearch("");
     searchInputRef.current.clear();
@@ -143,7 +151,14 @@ const HomeScreen = () => {
         <View>{images.length > 0 && <ImageGrid images={images} />}</View>
       </ScrollView>
 
-      <FilterModal modalInputRef={modalInputRef} />
+      <FilterModal
+        modalInputRef={modalInputRef}
+        filters={filters}
+        setFilters={setFilters}
+        onClose={closeFilterModal}
+        onApply={applyFilter}
+        onReset={resetFilter}
+      />
     </View>
   );
 };

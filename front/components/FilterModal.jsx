@@ -7,10 +7,11 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { hp } from "../helper/common";
+import { capitalize, hp } from "../helper/common";
 import { theme } from "../constants/theme";
+import { CommonFilterRow, OrderView, SectionView } from "./FilterViews";
 
-const FilterModal = ({ modalInputRef }) => {
+const FilterModal = ({ modalInputRef, onClose, onApply }) => {
   const snapPoints = useMemo(() => ["75%"], []);
 
   // const handleSheetChanges = useCallback((index) => {
@@ -31,9 +32,19 @@ const FilterModal = ({ modalInputRef }) => {
           <Text style={styles.filterText}>Section here</Text>
           {Object.keys(sections).map((sectionName, index) => {
             let sectionView = sections[sectionName];
+            let sectionData = data.filters[sectionName];
+            let title = capitalize(sectionName);
             return (
               <View key={sectionName}>
-                <SectionView title={sectionName} content={sectionView({})} />
+                <SectionView
+                  title={title}
+                  content={sectionView({
+                    data: sectionData,
+                    filters,
+                    setFilters,
+                    filterName: sectionName,
+                  })}
+                />
               </View>
             );
           })}
@@ -44,27 +55,12 @@ const FilterModal = ({ modalInputRef }) => {
 };
 
 const sections = {
-  order: (props) => <OrderView {...props} />,
-  orientation: (props) => <SectionView {...props} />,
-  type: (props) => <SectionView {...props} />,
-  colors: (props) => <SectionView {...props} />,
+  order: (props) => <CommonFilterRow {...props} />,
+  orientation: (props) => <CommonFilterRow {...props} />,
+  type: (props) => <CommonFilterRow {...props} />,
+  colors: (props) => <CommonFilterRow {...props} />,
 };
 
-const SectionView = () => {
-  return (
-    <View>
-      <Text>Section View</Text>
-    </View>
-  );
-};
-
-const OrderView = () => {
-  return (
-    <View>
-      <Text>Order View</Text>
-    </View>
-  );
-};
 const CustomBackDrop = ({ animatedIndex, style }) => {
   const containerAnimatedStyle = useAnimatedStyle(() => {
     let opacity = interpolate(
