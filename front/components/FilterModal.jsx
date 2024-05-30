@@ -70,7 +70,7 @@ const FilterModal = ({
                   { color: theme.colors.neutral(0.9) },
                 ]}
               >
-                Reset
+                Apply
               </Text>
             </Pressable>
             <Pressable style={styles.applyButton} onPress={onApply}>
@@ -167,5 +167,8 @@ const styles = StyleSheet.create({
     borderCurve: "continuous",
     borderWidth: 2,
     borderColor: theme.colors.grayBG,
+  },
+  buttonText: {
+    fontSize: hp(2.2),
   },
 });

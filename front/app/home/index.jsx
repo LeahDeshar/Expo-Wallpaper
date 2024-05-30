@@ -41,7 +41,6 @@ const HomeScreen = () => {
         setImages([...res.data.hits]);
       }
     }
-    console.log("result", res?.data);
   };
   const handleChangeCategory = (cat) => {
     setActiveCategory(cat);
@@ -87,6 +86,7 @@ const HomeScreen = () => {
   };
 
   const resetFilter = () => {
+    setFilters(null);
     closeFilterModal();
   };
   const clearSearch = () => {
