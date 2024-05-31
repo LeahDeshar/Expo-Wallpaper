@@ -48,14 +48,28 @@ const ImageScreen = () => {
   };
 
   const handleDownloadImage = async () => {
-    setStatus("downloading");
-    let uri = await downloadFile();
-    if (uri) showToast("Image Downloaded");
+    if (Platform.OS == "web") {
+      const anchor = document.createElement("a");
+      anchor.href = imageUrl;
+      anchor.target = "_blank";
+      anchor.download = fileName || "download";
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    } else {
+      setStatus("downloading");
+      let uri = await downloadFile();
+      if (uri) showToast("Image Downloaded");
+    }
   };
   const handleShareImage = async () => {
-    setStatus("sharing");
-    let uri = await downloadFile();
-    if (uri) await Sharing.shareAsync(uri);
+    if (Platform.OS == "web") {
+      showToast("Link Copied");
+    } else {
+      setStatus("sharing");
+      let uri = await downloadFile();
+      if (uri) await Sharing.shareAsync(uri);
+    }
   };
 
   const downloadFile = async () => {
