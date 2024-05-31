@@ -45,15 +45,21 @@ const ImageScreen = () => {
     };
   };
 
-  const handleDownloadImage = async () => {};
+  const handleDownloadImage = async () => {
+    setStatus("downloading");
+    let uri = await downloadFile();
+    if (uri) console.log("image download");
+  };
   const handleShareImage = async () => {};
 
   const downloadFile = async () => {
     try {
       const { uri } = await FileSystem.downloadAsync(imageUrl, filePath);
+      setStatus("");
       return uri;
     } catch (error) {
       console.log(error.message);
+      setStatus("");
       Alert.alert("Image", err.message);
       return null;
     }
@@ -80,9 +86,15 @@ const ImageScreen = () => {
           </Pressable>
         </Animated.View>
         <Animated.View entering={FadeInDown.springify().delay(100)}>
-          <Pressable style={styles.button} onPress={handleDownloadImage}>
-            <Octicons name="download" size={24} color={"white"} />
-          </Pressable>
+          {status == "downloading" ? (
+            <View>
+              <ActivityIndicator size={"small"} color={"white"} />
+            </View>
+          ) : (
+            <Pressable style={styles.button} onPress={handleDownloadImage}>
+              <Octicons name="download" size={24} color={"white"} />
+            </Pressable>
+          )}
         </Animated.View>
         <Animated.View entering={FadeInDown.springify().delay(200)}>
           <Pressable style={styles.button} onPress={handleShareImage}>
