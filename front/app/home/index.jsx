@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -63,7 +64,7 @@ const HomeScreen = () => {
       page = 1;
       setImages([]);
       setActiveCategory(null);
-      fetchImages({ page, q: text }, false);
+      fetchImages({ page, q: text, ...filters }, false);
     }
 
     if (text == "") {
@@ -71,7 +72,7 @@ const HomeScreen = () => {
       searchInputRef.current.clear();
       setActiveCategory(null);
       setImages([]);
-      fetchImages({ page }, false);
+      fetchImages({ page, filters }, false);
     }
   };
 
@@ -98,7 +99,18 @@ const HomeScreen = () => {
   };
 
   const resetFilter = () => {
-    setFilters(null);
+    if (filters) {
+      page = 1;
+      setFilters(null);
+      setImages([]);
+      let params = {
+        page,
+      };
+      if (activeCategory) params.category = activeCategory;
+      if (search) params.q = search;
+      fetchImages(params, false);
+    }
+    // setFilters(null);
     closeFilterModal();
   };
   const clearSearch = () => {
@@ -161,7 +173,26 @@ const HomeScreen = () => {
           />
         </View>
 
+        {filters && (
+          <View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {Object.keys(filters).map((key, index) => {
+                return (
+                  <View key={key} style={styles.filterItem}>
+                    <Text style={styles.filterItemText}>{filters[key]}</Text>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </View>
+        )}
         <View>{images.length > 0 && <ImageGrid images={images} />}</View>
+
+        <View
+          style={{ marginBottom: 70, marginTop: images.length > 0 ? 10 : 70 }}
+        >
+          <ActivityIndicator size={"large"} />
+        </View>
       </ScrollView>
 
       <FilterModal
