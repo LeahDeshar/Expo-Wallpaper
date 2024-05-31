@@ -60,9 +60,7 @@ const FilterModal = ({
 
           <Animated.View
             style={styles.buttons}
-            entering={FadeInDown.delay(index * 100 + 100)
-              .springify()
-              .damping(11)}
+            entering={FadeInDown.delay(500).springify().damping(11)}
           >
             <Pressable style={styles.resetButton} onPress={onReset}>
               <Text
