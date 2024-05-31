@@ -6,4 +6,4 @@ This project is a React Native wallpaper application built using Expo. It levera
 
 ### Document
 
-![image](o1.png)
+![image](o2.png)
