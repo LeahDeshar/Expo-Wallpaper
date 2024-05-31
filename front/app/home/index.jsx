@@ -49,6 +49,7 @@ const HomeScreen = () => {
     page = 1;
     let params = {
       page,
+      ...filters,
     };
     if (cat) {
       params.category = cat;
@@ -82,6 +83,17 @@ const HomeScreen = () => {
   };
 
   const applyFilter = () => {
+    if (filters) {
+      page = 1;
+      setImages([]);
+      let params = {
+        page,
+        ...filters,
+      };
+      if (activeCategory) params.category = activeCategory;
+      if (search) params.q = search;
+      fetchImages(params, false);
+    }
     closeFilterModal();
   };
 
