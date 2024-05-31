@@ -1,4 +1,12 @@
-import { Button, StyleSheet, Image, Text, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Image,
+  Text,
+  View,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { BlurView } from "expo-blur";
@@ -8,21 +16,34 @@ import { theme } from "../../constants/theme";
 const ImageScreen = () => {
   const router = useRouter();
   const item = useLocalSearchParams();
-  const [status, setStatus] = useState();
+  const [status, setStatus] = useState("loading");
   let uri = item?.webformatURL;
 
   const onLoad = () => {
     setStatus("");
   };
   const getSize = () => {
+    const aspectRatio = item?.imageWidth / item?.imageHeight;
+    const maxWidth = Platform.OS == "web" ? wp(50) : wp(92);
+    let calculateHeight = maxWidth / aspectRatio;
+    let calculateWidth = maxWidth;
+
+    if (aspectRatio < 1) {
+      calculateWidth = calculateHeight * aspectRatio;
+    }
     return {
-      width: 200,
-      height: 200,
+      width: calculateWidth,
+      height: calculateHeight,
     };
   };
   return (
     <BlurView style={styles.container} tint="dark" intensity={60}>
-      <View>
+      <View style={getSize()}>
+        <View style={styles.loading}>
+          {status == "loading" && (
+            <ActivityIndicator size="large" color="white" />
+          )}
+        </View>
         <Image
           transition={100}
           style={[styles.image, getSize()]}
