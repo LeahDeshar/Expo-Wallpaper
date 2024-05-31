@@ -123,6 +123,21 @@ const HomeScreen = () => {
 
   const handleTextDebounce = useCallback(debounce(handleSearch, 400), []);
 
+  const clearThisFilter = (filterName) => {
+    let filterz = { ...filters };
+    delete filterz[filterName];
+    setFilters({ ...filterz });
+    page = 1;
+    setImages([]);
+
+    let params = {
+      page,
+      ...filterz,
+    };
+    if (activeCategory) params.category = activeCategory;
+    if (search) params.q = search;
+    fetchImages(params, false);
+  };
   return (
     <View style={[styles.container, { paddingTop }]}>
       <View style={styles.header}>
@@ -183,7 +198,19 @@ const HomeScreen = () => {
               {Object.keys(filters).map((key, index) => {
                 return (
                   <View key={key} style={styles.filterItem}>
-                    <Text style={styles.filterItemText}>{filters[key]}</Text>
+                    {key == "colors" ? (
+                      <View
+                        style={{
+                          height: 20,
+                          width: 30,
+                          borderRadius: 7,
+                          backgroundColor: filters[key],
+                        }}
+                      />
+                    ) : (
+                      <Text style={styles.filterItemText}>{filters[key]}</Text>
+                    )}
+                    {/* <Text style={styles.filterItemText}>{filters[key]}</Text> */}
                     <Pressable
                       style={styles.filterCloseIcon}
                       onPress={() => clearThisFilter(key)}
