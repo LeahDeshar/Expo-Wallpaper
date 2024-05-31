@@ -17,6 +17,8 @@ import { theme } from "../../constants/theme";
 import { Entypo, Octicons } from "@expo/vector-icons";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+
 const ImageScreen = () => {
   const router = useRouter();
   const item = useLocalSearchParams();
@@ -50,7 +52,11 @@ const ImageScreen = () => {
     let uri = await downloadFile();
     if (uri) console.log("image download");
   };
-  const handleShareImage = async () => {};
+  const handleShareImage = async () => {
+    setStatus("sharing");
+    let uri = await downloadFile();
+    if (uri) await Sharing.shareAsync(uri);
+  };
 
   const downloadFile = async () => {
     try {
@@ -97,9 +103,15 @@ const ImageScreen = () => {
           )}
         </Animated.View>
         <Animated.View entering={FadeInDown.springify().delay(200)}>
-          <Pressable style={styles.button} onPress={handleShareImage}>
-            <Entypo name="share" size={24} color={"white"} />
-          </Pressable>
+          {status == "sharing" ? (
+            <View>
+              <ActivityIndicator size={"small"} color={"white"} />
+            </View>
+          ) : (
+            <Pressable style={styles.button} onPress={handleShareImage}>
+              <Entypo name="share" size={24} color={"white"} />
+            </Pressable>
+          )}
         </Animated.View>
       </View>
     </BlurView>
