@@ -175,11 +175,25 @@ const HomeScreen = () => {
 
         {filters && (
           <View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.filters}
+            >
               {Object.keys(filters).map((key, index) => {
                 return (
                   <View key={key} style={styles.filterItem}>
                     <Text style={styles.filterItemText}>{filters[key]}</Text>
+                    <Pressable
+                      style={styles.filterCloseIcon}
+                      onPress={() => clearThisFilter(key)}
+                    >
+                      <Ionicons
+                        name="close"
+                        size={14}
+                        colors={theme.colors.neutral(0.9)}
+                      />
+                    </Pressable>
                   </View>
                 );
               })}
@@ -250,5 +264,23 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.neutral(0.1),
     padding: 8,
     borderRadius: theme.radius.sm,
+  },
+  filterItem: {
+    backgroundColor: theme.colors.grayBG,
+    padding: 3,
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: theme.radius.xs,
+    padding: 5,
+    gap: 10,
+    paddingHorizontal: 10,
+  },
+  filterItemText: {
+    fontSize: hp(1.9),
+  },
+  filterCloseIcon: {
+    backgroundColor: theme.colors.neutral(0.2),
+    padding: 4,
+    borderRadius: 7,
   },
 });
